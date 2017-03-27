@@ -67,7 +67,7 @@ $(document).ready(function() {
   displayPuzzle()
 
   function keyInMethod() {
-    var inputSpot = document.querySelector('#inputSpotForGuess')
+    var inputSpot = document.querySelector('.guess-letter')
 
     var newLabel = document.createElement('label')
     newLabel.setAttribute("for","guess")
@@ -78,7 +78,7 @@ $(document).ready(function() {
 
     var button = document.createElement('input')
     button.setAttribute('type','button')
-    button.setAttribute('value','Submit')
+    button.setAttribute('value','GUESS LETTER')
     button.id = 'guessButton'
 
     inputSpot.appendChild(newLabel)
@@ -104,8 +104,6 @@ $(document).ready(function() {
       }
   }
 
-  // checkGuess()
-
   function guessResult() {
     var input = document.querySelector('#guess')
     var inputSpot = document.querySelector('#inputSpotForGuess')
@@ -115,31 +113,14 @@ $(document).ready(function() {
 
     showResultBox.removeChild(showResultBox.lastChild)
 
-
-    // var listedLetters = []
-    // listedWords.push(input.value.toUpperCase())
-    // console.log(listedLetters)
-
     if (checkGuess() === true) {
       showResult.textContent = "Great Job! " + input.value.toUpperCase() + " is in the word."
       showResultBox.appendChild(showResult)
-      createSolveButton()
     } else {
       showResult.textContent = "Sorry, " + input.value.toUpperCase() + " is not in the word."
       showResultBox.appendChild(showResult)
     }
 
-  }
-
-  // guessResult()
-
-  function createSolveButton() {
-    var inputSpot = document.querySelector('#inputSpotForGuess')
-    var solveButton = document.createElement('input')
-    solveButton.setAttribute('type','button')
-    solveButton.setAttribute('value','SOLVE')
-    solveButton.id = 'solveButton'
-    inputSpot.appendChild(solveButton)
   }
 
   function exposeLetter() {
@@ -148,25 +129,73 @@ $(document).ready(function() {
     var letters = document.querySelectorAll('.letter')
 
     letters.forEach(function(letter) {
-      console.log(letter)
+      // console.log(letter)
       if(letter.textContent === input.value.toUpperCase()) {
         letter.style.backgroundColor = 'pink'
       }
     })
+  }
+
+
+  function createSolveButton() {
+    var inputSpot = document.querySelector('.solve-word')
+
+    var solveLabel = document.createElement('label')
+    solveLabel.setAttribute("for","solve")
+
+    var solveInput = document.createElement('input')
+    solveInput.setAttribute('type','text')
+    solveInput.id = 'solve'
+
+    var solveButton = document.createElement('input')
+    solveButton.setAttribute('type','button')
+    solveButton.setAttribute('value','SOLVE WORD')
+    solveButton.id = 'solveButton'
+
+    inputSpot.appendChild(solveLabel)
+    inputSpot.appendChild(solveInput)
+    inputSpot.appendChild(solveButton)
 
   }
 
-  // exposeLetter()
+  createSolveButton()
 
-  var button = document.querySelector('#guessButton')
+  function isWordCorrect() {
+    var solveInput = document.querySelector('#solve')
+    var answer = puzzle[randomIndex].answer
+    var letters = document.querySelectorAll('.letter')
+    var showResultBox = document.querySelector('.interaction')
+    var showResult = document.querySelector('#showResult')
 
-  button.addEventListener('click', function () {
+    if(solveInput.value.toUpperCase() === answer) {
+      letters.forEach(function(letter) {
+        letter.style.backgroundColor = 'pink'
+      })
+      showResult.textContent = "YOU HAVE GOT IT!"
+      showResultBox.appendChild(showResult)
+    }
+  }
+
+  isWordCorrect()
+
+  function playAgain() {
+
+  }
+
+  var guessButton = document.querySelector('#guessButton')
+
+  guessButton.addEventListener('click', function () {
     checkGuess()
     guessResult()
     exposeLetter()
 
   })
 
+  var solveButton = document.querySelector('#solveButton')
+
+  solveButton.addEventListener('click', function() {
+    isWordCorrect()
+  })
 
   // $.ajax({
   //   url: 'products.json',
