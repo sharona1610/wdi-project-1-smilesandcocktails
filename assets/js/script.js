@@ -4,15 +4,12 @@ $(document).ready(function() {
 
   var puzzle =
     [
-    {answer: "BUN", category: "FOOD"} ,
+    {answer: "CHARKWAYTEOW", category: "FOOD"} ,
     {answer: "ELDERFLOWER", category:"FLOWER"},
     {answer: "GREENLAND", category:"COUNTRY"},
     ]
 
-  // var answer = ['PIZZA', 'PASSIONFRUITS', 'CHEESEBURGERS', 'BLACKBERRIES', 'GINGERBREAD', 'POMEGRANATE', 'QUESADILLAS', 'LEMONGRASS', 'PISTACHIOS', 'WATERMELON']
-
   var puzzleAlreadyDisplayed = []
-  var listedWords = []
 
   var pOneName = ''
   var pTwoName = ''
@@ -48,7 +45,7 @@ $(document).ready(function() {
     for(var i = 0; i < answer.length; i++) {
 
       // Separate as Letter of the Answer into 1 Box
-      var letterOfWordBox = document.createElement('div')
+      var letterOfWordBox = document.createElement('p')
       letterOfWordBox.className = 'letter'
       letterOfWordBox.textContent = answer.split('')[i]
       display.appendChild(letterOfWordBox)
@@ -111,58 +108,64 @@ $(document).ready(function() {
 
   function guessResult() {
     var input = document.querySelector('#guess')
+    var inputSpot = document.querySelector('#inputSpotForGuess')
     var showResultBox = document.querySelector('.interaction')
     var showResult = document.createElement('p')
     showResult.id = 'showResult'
 
     showResultBox.removeChild(showResultBox.lastChild)
 
+
+    // var listedLetters = []
+    // listedWords.push(input.value.toUpperCase())
+    // console.log(listedLetters)
+
     if (checkGuess() === true) {
       showResult.textContent = "Great Job! " + input.value.toUpperCase() + " is in the word."
       showResultBox.appendChild(showResult)
-
+      createSolveButton()
     } else {
       showResult.textContent = "Sorry, " + input.value.toUpperCase() + " is not in the word."
       showResultBox.appendChild(showResult)
-
     }
+
   }
 
   // guessResult()
 
-  function iWantToSolve() {
+  function createSolveButton() {
+    var inputSpot = document.querySelector('#inputSpotForGuess')
+    var solveButton = document.createElement('input')
+    solveButton.setAttribute('type','button')
+    solveButton.setAttribute('value','SOLVE')
+    solveButton.id = 'solveButton'
+    inputSpot.appendChild(solveButton)
+  }
+
+  function exposeLetter() {
+    var answer = puzzle[randomIndex].answer
+    var input = document.querySelector('#guess')
+    var letters = document.querySelectorAll('.letter')
+
+    letters.forEach(function(letter) {
+      console.log(letter)
+      if(letter.textContent === input.value.toUpperCase()) {
+        letter.style.backgroundColor = 'pink'
+      }
+    })
 
   }
+
+  // exposeLetter()
 
   var button = document.querySelector('#guessButton')
 
   button.addEventListener('click', function () {
     checkGuess()
     guessResult()
+    exposeLetter()
+
   })
-
-  // document.addEventListener('click', function() {
-  //   clearResult()
-  // })
-
-  // function puzzleDisplayed() {
-  //   if (puzzleAlreadyDisplayed.includes(randomIndex) === true) {
-  //     console.log("puzzle is already displayed - true")
-  //     console.log(puzzleAlreadyDisplayed)
-  //     return true
-  //   }
-  //   else {
-  //     puzzleAlreadyDisplayed.push(randomIndex)
-  //     console.log("puzzle is not yet displayed - false")
-  //     console.log(puzzleAlreadyDisplayed)
-  //     return false
-  //   }
-  // }
-  //
-  // puzzleDisplayed()
-
-
-
 
 
   // $.ajax({
@@ -181,7 +184,7 @@ $(document).ready(function() {
   // })
 
 
-  console.log('THIS WEBSITE IS RUNNING PROPERLY!')
+  // console.log('THIS WEBSITE IS RUNNING PROPERLY!')
 
 
 })
