@@ -7,13 +7,30 @@
   </head>
   <body>
       <h1>WORD WAR AGAINST MYSELF</h1>
-      <div id="display-puzzle"></div>
+      <div id="display-puzzle">
+          <div class="intro">
+              <p>DO YOU DARE CHALLENGE YOURSELF WITH A WORD GAME?</p>
+              <p>ALL YOU GOTTA DO IS TO GUESS EACH LETTER CORRECTLY</p>
+              <p>OR THE ENTIRE WORD...</p>
+              <p>IF YOU CAN...</p>
+          </div>
+      </div>
       <div class="interaction">
-            <p class = "showResult"></p>
+              <p class = "showResult"></p>
+              <input type="button" id="startButton" name="startgame" value="LET'S PLAY!">
       </div>
       <div class = bottom-container>
-              <div class="guess-letter"></div>
-              <div class="solve-word"></div>
+              <div class="guess-letter">
+                  <label for="guess">GUESS A LETTER</label>
+                  <input type="text" id="guess" name="guess">
+                  <input type="button" id = "guessButton" name="guessButton" value="GUESS">
+              </div>
+              <div class="solve-word">
+                  <label for="solve">SOLVE THE WORD</label>
+                  <input type="text" id="solve" name="solve">
+                  <input type="button" id="solveButton" name="solveButton" value="SOLVE">
+              </div>
+      </div>
       </div>
       <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
       <script src="assets/js/script.js" charset="utf-8"></script>

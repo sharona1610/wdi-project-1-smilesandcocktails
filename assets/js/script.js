@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  // var alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-
   var puzzle =
     [
     {answer: "CHARKWAYTEOW", category: "FOOD"} ,
@@ -11,6 +9,7 @@ $(document).ready(function() {
 
   var playerName = ''
   var randomIndex = puzzle.length + 1
+  var solvedPuzzles = []
 
 //click on 'let's play button' - must create
 
@@ -19,20 +18,45 @@ $(document).ready(function() {
     // alert('ALRIGHT THEN ' + playerName.toUpperCase() + ', LET\'S PLAY!')
   // }
 
+  var bottomContainer = document.querySelector('.bottom-container')
+  bottomContainer.style.display = 'none'
 
-  function randomizePuzzle() {
-      randomIndex = Math.floor(Math.random() * puzzle.length)
-      console.log(randomIndex)
-      return randomIndex
-}
-  randomizePuzzle()
+  var startButton = document.querySelector('#startButton')
+
+  startButton.addEventListener('click', function() {
+      var intro = document.querySelector('.intro')
+      intro.style.display = 'none'
+      displayPuzzle()
+  })
+
+  function randomizeIndex() {
+
+    randomIndex = Math.floor(Math.random() * puzzle.length)
+    return randomIndex
+  }
+
+  // function removeSolvedPuzzles() {
+  //   var randomIndex = randomizeIndex()
+  //   solvedPuzzles.push(puzzle[randomIndex])
+  //   console.log(solvedPuzzles)
+  // }
+
+  function hideIntroShowButtons() {
+    var startButton = document.querySelector('#startButton')
+    startButton.style.display = 'none'
+    var bottomContainer = document.querySelector('.bottom-container')
+    bottomContainer.style.display = 'block'
+  }
 
   function displayPuzzle() {
+
+    hideIntroShowButtons()
+    var randomIndex = randomizeIndex()
     var answer = puzzle[randomIndex].answer
     var category = puzzle[randomIndex].category
     var display = document.querySelector('#display-puzzle')
 
-console.log("the answer is: " + answer + " and the answer length is : " + answer.length)
+    console.log("the answer is: " + answer + " and the answer length is : " + answer.length)
 
     for(var i = 0; i < answer.length; i++) {
 
@@ -53,63 +77,39 @@ console.log("the answer is: " + answer + " and the answer length is : " + answer
     showCategory.textContent = category
     display.appendChild(showCategory)
 
-  console.log(answer, category)
+    console.log(answer, category)
   }
-
-  displayPuzzle()
-
-  function keyInMethod() {
-    var guessArea = document.querySelector('.guess-letter')
-
-    var guessLabel = document.createElement('label')
-    guessLabel.setAttribute("for","guess")
-
-    var guess = document.createElement('input')
-    guess.setAttribute('type','text')
-    guess.id = 'guess'
-
-    var guessButton = document.createElement('input')
-    guessButton.setAttribute('type','button')
-    guessButton.setAttribute('value','GUESS LETTER')
-    guessButton.id = 'guessButton'
-
-    guessArea.appendChild(guessLabel)
-    guessArea.appendChild(guess)
-    guessArea.appendChild(guessButton)
-
-  }
-
-  keyInMethod()
 
 
   function checkGuess() {
     var guess = document.querySelector('#guess')
     var answer = puzzle[randomIndex].answer
 
-      if (answer.includes(guess.value.toUpperCase())) {
+    if (answer.includes(guess.value.toUpperCase()) && answer.length === 1) {
         // console.log (guess.value + " is in the " + answer)
-        return true
-      } else {
+      return true
+    } else {
         // console.log (guess.value + " is not in the " + answer)
-        return false
-      }
+      return false
+    }
   }
 
   function guessResult() {
     var guess = document.querySelector('#guess')
     var resultBox = document.querySelector('.interaction')
     var showResult = document.querySelector('.showResult')
+    var answer = puzzle[randomIndex].answer
 
     resultBox.removeChild(resultBox.lastChild)
 
     if (checkGuess() === true) {
       showResult.textContent = "Great Job! " + guess.value.toUpperCase() + " is in the word."
       resultBox.appendChild(showResult)
-    } else {
+    }
+    else {
       showResult.textContent = "Sorry, " + guess.value.toUpperCase() + " is not in the word."
       resultBox.appendChild(showResult)
     }
-
   }
 
   function exposeLetter() {
@@ -125,36 +125,13 @@ console.log("the answer is: " + answer + " and the answer length is : " + answer
     })
   }
 
-
-  function createSolveButton() {
-    var solveArea = document.querySelector('.solve-word')
-
-    var solveLabel = document.createElement('label')
-    solveLabel.setAttribute("for","solve")
-
-    var solveInput = document.createElement('input')
-    solveInput.setAttribute('type','text')
-    solveInput.id = 'solve'
-
-    var solveButton = document.createElement('input')
-    solveButton.setAttribute('type','button')
-    solveButton.setAttribute('value','SOLVE WORD')
-    solveButton.id = 'solveButton'
-
-    solveArea.appendChild(solveLabel)
-    solveArea.appendChild(solveInput)
-    solveArea.appendChild(solveButton)
-
-  }
-
-  createSolveButton()
-
   function isWordCorrect() {
     var solveInput = document.querySelector('#solve')
     var answer = puzzle[randomIndex].answer
     var letters = document.querySelectorAll('.letter')
     var resultBox = document.querySelector('.interaction')
     var showResult = document.querySelector('.showResult')
+    var playButton = document.querySelector('#playButton')
     // solveInput = ''
 
     showResult.textContent = "TAKE A GUESS"
@@ -167,6 +144,13 @@ console.log("the answer is: " + answer + " and the answer length is : " + answer
       showResult.textContent = "YOU HAVE GOT IT!"
       resultBox.appendChild(showResult)
 
+      playAgain()
+
+      playButton.addEventListener('click', function() {
+        // displayPuzzle()
+        // removeSolvedPuzzles()
+      })
+
     } else if(solveInput.value.toUpperCase() !== answer) {
       showResult.textContent = "SORRY PLEASE TRY AGAIN!"
       resultBox.appendChild(showResult)
@@ -175,7 +159,14 @@ console.log("the answer is: " + answer + " and the answer length is : " + answer
 
   // isWordCorrect()
 
-  function startPlay() {
+  function playAgain() {
+    var playButton = document.createElement('input')
+    var resultBox = document.querySelector('.interaction')
+
+    playButton.setAttribute('type','button')
+    playButton.setAttribute('value','LET\'S PLAY AGAIN!')
+    playButton.id = 'playButton'
+    resultBox.appendChild(playButton)
 
   }
 
@@ -193,6 +184,10 @@ console.log("the answer is: " + answer + " and the answer length is : " + answer
   solveButton.addEventListener('click', function() {
     isWordCorrect()
   })
+
+
+
+
 
   // $.ajax({
   //   url: 'products.json',
