@@ -1,23 +1,47 @@
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function(event) {
 
   var puzzle =
     [
-    {answer: 'CHARKWAYTEOW', category: 'FOOD'} ,
-    {answer: 'ELDERFLOWER', category:'FLOWER'},
-    {answer: 'GREENLAND', category:'COUNTRY'},
+    {answer: 'PIZZA', category: 'FOOD'},
+    {answer: 'PASSIONFRUITS', category: 'FOOD'},
+    {answer: 'CHEESEBURGERS', category: 'FOOD'},
+    {answer: 'BLACKBERRIES', category: 'FOOD'},
+    {answer: 'GINGERBREAD', category: 'FOOD'},
+    {answer: 'POMEGRANATE', category: 'FOOD'},
+    {answer: 'QUESADILLAS', category: 'FOOD'},
+    {answer: 'LEMONGRASS', category: 'FOOD'},
+    {answer: 'PISTACHIOS', category: 'FOOD'},
+    {answer: 'WATERMELON', category: 'FOOD'},
+    {answer: 'HAZELNUTS', category: 'FOOD'},
+    {answer: 'STONEHENGE', category: 'LANDMARK'},
+    {answer: 'MERLION', category: 'LANDMARK'},
+    {answer: 'PARTHENON', category: 'LANDMARK'},
+    {answer: 'COLOSSEUM', category: 'LANDMARK'},
+    {answer: 'KILIMANJARO', category: 'LANDMARK'},
+    {answer: 'ACROPOLIS', category: 'LANDMARK'},
+    {answer: 'POMPEII', category: 'LANDMARK'},
+    {answer: 'ALCATRAZ', category: 'LANDMARK'},
+    {answer: 'MECCA', category: 'LANDMARK'},
+    {answer: 'FRANKENSTEIN', category: 'CHARACTER'},
+    {answer: 'CHEWBACCA', category: 'CHARACTER'},
+    {answer: 'LEPRECHAUNS', category: 'CHARACTER'},
+    {answer: 'ZEUS', category: 'CHARACTER'},
+    {answer: 'POSEIDON', category: 'CHARACTER'},
+    {answer: 'VOLDEMORT', category: 'CHARACTER'},
+    {answer: 'GODZILLA', category: 'CHARACTER'},
+    {answer: 'BATWOMAN', category: 'CHARACTER'},
+    {answer: 'CHIMPANZEES', category: 'ANIMALS'},
+    {answer: 'CATERPILLAR', category: 'ANIMALS'},
+    {answer: 'HUMMINGBIRD', category: 'ANIMALS'},
+    {answer: 'WHALE', category: 'ANIMALS'},
+    {answer: 'DOLPHINS', category:'ANIMALS'},
+    {answer: 'HONEYBEES', category:'ANIMALS'},
     ]
 
-  var playerName = ''
   var randomIndex = puzzle.length + 1
   var solvedPuzzles = []
   var alphabets = []
 
-//click on 'let's play button' - must create
-
-  // function gameStart() {
-    // playerName = prompt('PLAYER 1, PLEASE ENTER YOUR NAME:')
-    // alert('ALRIGHT THEN ' + playerName.toUpperCase() + ', LET\'S PLAY!')
-  // }
 
   var bottomContainer = document.querySelector('.bottom-container')
   bottomContainer.style.display = 'none'
@@ -31,6 +55,7 @@ $(document).ready(function() {
 
       hideIntroShowButtons()
       displayPuzzle()
+      restart()
   })
 
   var guessButton = document.querySelector('#guessButton')
@@ -39,32 +64,23 @@ $(document).ready(function() {
     checkGuess()
     guessResult()
     exposeLetter()
+    guess.value =''
   })
 
   var solveButton = document.querySelector('#solveButton')
 
   solveButton.addEventListener('click', function() {
     isWordCorrect()
-    restart()
+    displaySolveResult()
   })
 
-  // var playButton = document.querySelector('#playButton')
-  //
-  // playButton.addEventListener('click', function() {
-  //   displayPuzzle()
-  // })
 
   function randomizeIndex() {
 
     randomIndex = Math.floor(Math.random() * puzzle.length)
+
     return randomIndex
   }
-
-  // function removeSolvedPuzzles() {
-  //   var randomIndex = randomizeIndex()
-  //   solvedPuzzles.push(puzzle[randomIndex])
-  //   console.log(solvedPuzzles)
-  // }
 
   function hideIntroShowButtons() {
     var startButton = document.querySelector('#startButton')
@@ -86,8 +102,12 @@ $(document).ready(function() {
     dummyCategory.forEach(function(category) {
       category.remove()
     })
+    var previousResultShow = document.querySelector('.showResult')
+
+    previousResultShow.textContent = ''
 
     var randomIndex = randomizeIndex()
+
     var answer = puzzle[randomIndex].answer
     var category = puzzle[randomIndex].category
     var display = document.querySelector('#display-puzzle')
@@ -105,7 +125,7 @@ $(document).ready(function() {
 
     // Display corresponding Category below the boxes
     var categoryIntro = document.createElement('p')
-    categoryIntro.textContent = 'The category of this puzzle is:'
+    categoryIntro.textContent = 'THE CATEGORY OF THIS PUZZLE IS: '
     categoryIntro.className = 'category'
     display.appendChild(categoryIntro)
 
@@ -113,8 +133,6 @@ $(document).ready(function() {
     showCategory.className = 'category'
     showCategory.textContent = category
     display.appendChild(showCategory)
-
-    console.log(answer, category)
   }
 
 
@@ -148,24 +166,25 @@ $(document).ready(function() {
 
     resultBox.removeChild(resultBox.lastChild)
 
+
     if (checkGuess() === 1) {
-      showResult.textContent = 'Sorry, you have to enter a 1-letter guess.'
+      showResult.textContent = 'SORRY, YOU HAVE TO ENTER A 1-LETTER GUESS.'
       resultBox.appendChild(showResult)
     }
     else if (checkGuess() === 2) {
-      showResult.textContent = 'You have already guessed \'' + guess.value.toUpperCase() + '\' earlier on.'
+      showResult.textContent = 'YOU HAVE ALREADY GUESSED \'' + guess.value.toUpperCase() + '\' EARLIER ON.'
       resultBox.appendChild(showResult)
     }
     else if (checkGuess() === 3) {
       alphabets.push(guess.value.toUpperCase())
       console.log(alphabets)
-      showResult.textContent = 'Excellent! \'' + guess.value.toUpperCase() + '\' IS in the word!'
+      showResult.textContent = 'EXCELLENT! \'' + guess.value.toUpperCase() + '\' IS IN THE WORD'
       resultBox.appendChild(showResult)
     }
     else if (checkGuess() === 4) {
       alphabets.push(guess.value.toUpperCase())
       console.log(alphabets)
-      showResult.textContent = 'Sorry, \'' + guess.value.toUpperCase() + '\' is NOT in the word!'
+      showResult.textContent = 'SORRY, \'' + guess.value.toUpperCase() + '\' IS NOT IN THE WORD!'
       resultBox.appendChild(showResult)
     }
 
@@ -187,37 +206,49 @@ $(document).ready(function() {
   function isWordCorrect() {
     var solveInput = document.querySelector('#solve')
     var answer = puzzle[randomIndex].answer
+
+    if(solveInput.value.toUpperCase() === answer) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  function displaySolveResult() {
+
     var letters = document.querySelectorAll('.letter')
     var resultBox = document.querySelector('.interaction')
     var showResult = document.querySelector('.showResult')
     var playButton = document.querySelector('#playButton')
 
-    showResult.textContent = 'TAKE A GUESS'
-    resultBox.appendChild(showResult)
-
-    if(solveInput.value.toUpperCase() === answer) {
+    if (isWordCorrect() === true) {
       letters.forEach(function(letter) {
         letter.style.backgroundColor = 'pink'
       })
-      showResult.textContent = 'YOU HAVE GOT IT!'
+
+      showResult.textContent = 'SMART ONE! YOU\'VE SOLVED IT!'
       resultBox.appendChild(showResult)
 
-      return true
+      solve.value = ''
 
-    } else if(solveInput.value.toUpperCase() !== answer) {
+      puzzle.splice(randomIndex,1)
+      console.log("THE PUZZLE NOW HAS " + puzzle.length + " items.")
+
+      restart()
+    }
+    else {
       showResult.textContent = 'SORRY PLEASE TRY AGAIN!'
       resultBox.appendChild(showResult)
 
-      return false
+      solve.value = ''
     }
   }
 
   function restart() {
-    if (isWordCorrect() === true) {
+
       var startButton = document.querySelector('#startButton')
-      startButton.textContent = 'LET\'S PLAY AGAIN!'
+      startButton.value = 'ANOTHER PUZZLE'
       startButton.style.display = 'block'
-    }
   }
 
 })
