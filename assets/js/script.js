@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  var alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+  // var alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
   var puzzle =
     [
@@ -9,81 +9,73 @@ $(document).ready(function() {
     {answer: "GREENLAND", category:"COUNTRY"},
     ]
 
-  var puzzleAlreadyDisplayed = []
-
-  var pOneName = ''
-  var pTwoName = ''
+  var playerName = ''
   var randomIndex = puzzle.length + 1
 
+//click on 'let's play button' - must create
+
   // function gameStart() {
-    // pOneName = prompt('PLAYER 1, PLEASE ENTER YOUR NAME:')
-    // pTwoName = prompt('PLAYER 2, NOW YOUR NAME:')
-    //
-    // alert('ALRIGHT THEN, LET\'S PLAY!')
+    // playerName = prompt('PLAYER 1, PLEASE ENTER YOUR NAME:')
+    // alert('ALRIGHT THEN ' + playerName.toUpperCase() + ', LET\'S PLAY!')
   // }
-  // gameStart()
+
 
   function randomizePuzzle() {
-    // if (puzzleAlreadyDisplayed.includes(randomIndex) === true) {
       randomIndex = Math.floor(Math.random() * puzzle.length)
       console.log(randomIndex)
-    // } else {
-    //   puzzleAlreadyDisplayed.push(randomIndex)
       return randomIndex
-  // }
 }
   randomizePuzzle()
 
   function displayPuzzle() {
     var answer = puzzle[randomIndex].answer
     var category = puzzle[randomIndex].category
-
     var display = document.querySelector('#display-puzzle')
 
-    console.log("the answer is: " + answer + " and the answer length is : " + answer.length)
+console.log("the answer is: " + answer + " and the answer length is : " + answer.length)
 
     for(var i = 0; i < answer.length; i++) {
 
-      // Separate as Letter of the Answer into 1 Box
-      var letterOfWordBox = document.createElement('p')
-      letterOfWordBox.className = 'letter'
-      letterOfWordBox.textContent = answer.split('')[i]
-      display.appendChild(letterOfWordBox)
+      // Separate Letters of Word into Own Box
+      var eachLetterBox = document.createElement('p')
+      eachLetterBox.className = 'letter'
+      eachLetterBox.textContent = answer.split('')[i]
+      display.appendChild(eachLetterBox)
     }
 
     // Display corresponding Category below the boxes
-    var categoryIntro = document.createElement('div')
+    var categoryIntro = document.createElement('p')
     categoryIntro.textContent = "The category of this puzzle is:"
     display.appendChild(categoryIntro)
 
-    var showCategory = document.createElement('div')
+    var showCategory = document.createElement('p')
     showCategory.id = 'category'
     showCategory.textContent = category
     display.appendChild(showCategory)
 
-    console.log(answer, category)
+  console.log(answer, category)
   }
 
   displayPuzzle()
 
   function keyInMethod() {
-    var inputSpot = document.querySelector('.guess-letter')
+    var guessArea = document.querySelector('.guess-letter')
 
-    var newLabel = document.createElement('label')
-    newLabel.setAttribute("for","guess")
+    var guessLabel = document.createElement('label')
+    guessLabel.setAttribute("for","guess")
 
-    var input = document.createElement('input')
-    input.setAttribute('type','text')
-    input.id = 'guess'
+    var guess = document.createElement('input')
+    guess.setAttribute('type','text')
+    guess.id = 'guess'
 
-    var button = document.createElement('input')
-    button.setAttribute('type','button')
-    button.setAttribute('value','GUESS LETTER')
-    button.id = 'guessButton'
+    var guessButton = document.createElement('input')
+    guessButton.setAttribute('type','button')
+    guessButton.setAttribute('value','GUESS LETTER')
+    guessButton.id = 'guessButton'
 
-    inputSpot.appendChild(newLabel)
-    inputSpot.appendChild(input)
-    inputSpot.appendChild(button)
+    guessArea.appendChild(guessLabel)
+    guessArea.appendChild(guess)
+    guessArea.appendChild(guessButton)
 
   }
 
@@ -91,46 +83,43 @@ $(document).ready(function() {
 
 
   function checkGuess() {
-    var input = document.querySelector('#guess')
-    var button = document.querySelector('#guessButton')
+    var guess = document.querySelector('#guess')
     var answer = puzzle[randomIndex].answer
 
-      if (answer.includes(input.value.toUpperCase())) {
-        // console.log (input.value + " is in the " + answer)
+      if (answer.includes(guess.value.toUpperCase())) {
+        // console.log (guess.value + " is in the " + answer)
         return true
       } else {
-        // console.log (input.value + " is not in the " + answer)
+        // console.log (guess.value + " is not in the " + answer)
         return false
       }
   }
 
   function guessResult() {
-    var input = document.querySelector('#guess')
-    var inputSpot = document.querySelector('#inputSpotForGuess')
-    var showResultBox = document.querySelector('.interaction')
-    var showResult = document.createElement('p')
-    showResult.id = 'showResult'
+    var guess = document.querySelector('#guess')
+    var resultBox = document.querySelector('.interaction')
+    var showResult = document.querySelector('.showResult')
 
-    showResultBox.removeChild(showResultBox.lastChild)
+    resultBox.removeChild(resultBox.lastChild)
 
     if (checkGuess() === true) {
-      showResult.textContent = "Great Job! " + input.value.toUpperCase() + " is in the word."
-      showResultBox.appendChild(showResult)
+      showResult.textContent = "Great Job! " + guess.value.toUpperCase() + " is in the word."
+      resultBox.appendChild(showResult)
     } else {
-      showResult.textContent = "Sorry, " + input.value.toUpperCase() + " is not in the word."
-      showResultBox.appendChild(showResult)
+      showResult.textContent = "Sorry, " + guess.value.toUpperCase() + " is not in the word."
+      resultBox.appendChild(showResult)
     }
 
   }
 
   function exposeLetter() {
     var answer = puzzle[randomIndex].answer
-    var input = document.querySelector('#guess')
+    var guess = document.querySelector('#guess')
     var letters = document.querySelectorAll('.letter')
 
     letters.forEach(function(letter) {
       // console.log(letter)
-      if(letter.textContent === input.value.toUpperCase()) {
+      if(letter.textContent === guess.value.toUpperCase()) {
         letter.style.backgroundColor = 'pink'
       }
     })
@@ -138,7 +127,7 @@ $(document).ready(function() {
 
 
   function createSolveButton() {
-    var inputSpot = document.querySelector('.solve-word')
+    var solveArea = document.querySelector('.solve-word')
 
     var solveLabel = document.createElement('label')
     solveLabel.setAttribute("for","solve")
@@ -152,9 +141,9 @@ $(document).ready(function() {
     solveButton.setAttribute('value','SOLVE WORD')
     solveButton.id = 'solveButton'
 
-    inputSpot.appendChild(solveLabel)
-    inputSpot.appendChild(solveInput)
-    inputSpot.appendChild(solveButton)
+    solveArea.appendChild(solveLabel)
+    solveArea.appendChild(solveInput)
+    solveArea.appendChild(solveButton)
 
   }
 
@@ -164,21 +153,29 @@ $(document).ready(function() {
     var solveInput = document.querySelector('#solve')
     var answer = puzzle[randomIndex].answer
     var letters = document.querySelectorAll('.letter')
-    var showResultBox = document.querySelector('.interaction')
-    var showResult = document.querySelector('#showResult')
+    var resultBox = document.querySelector('.interaction')
+    var showResult = document.querySelector('.showResult')
+    // solveInput = ''
+
+    showResult.textContent = "TAKE A GUESS"
+    resultBox.appendChild(showResult)
 
     if(solveInput.value.toUpperCase() === answer) {
       letters.forEach(function(letter) {
         letter.style.backgroundColor = 'pink'
       })
       showResult.textContent = "YOU HAVE GOT IT!"
-      showResultBox.appendChild(showResult)
+      resultBox.appendChild(showResult)
+
+    } else if(solveInput.value.toUpperCase() !== answer) {
+      showResult.textContent = "SORRY PLEASE TRY AGAIN!"
+      resultBox.appendChild(showResult)
     }
   }
 
-  isWordCorrect()
+  // isWordCorrect()
 
-  function playAgain() {
+  function startPlay() {
 
   }
 
