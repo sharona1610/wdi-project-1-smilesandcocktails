@@ -36,6 +36,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     {answer: 'WHALE', category: 'ANIMALS'},
     {answer: 'DOLPHINS', category:'ANIMALS'},
     {answer: 'HONEYBEES', category:'ANIMALS'},
+    {answer: 'COMPASS', category:'THINGS'},
+    {answer: 'AUTOMOBILE', category:'THINGS'},
+    {answer: 'QUESTIONNAIRE', category:'THINGS'},
+    {answer: 'CARBOHYDRATES', category:'THINGS'},
+    {answer: 'BANJO', category:'THINGS'},
+    {answer: 'MOTORCYCLES', category:'THINGS'},
+    {answer: 'ABBREVIATIONS', category:'THINGS'},
     ]
 
   var randomIndex = puzzle.length + 1
@@ -61,24 +68,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   })
 
-  var guessButton = document.querySelector('#guessButton')
+  var guess = document.querySelector('#guess')
 
-  guessButton.addEventListener('click', function () {
+  // guessButton.addEventListener('click', function () {
 
-    checkGuess()
-    guessResult()
-    exposeLetter()
-    didGuessSolve()
-    guess.value =''
+  guess.addEventListener('keypress', function (e) {
+    var key = e.which || e.keyCode
+    if (key === 13) {
 
+      checkGuess()
+      guessResult()
+      exposeLetter()
+      didGuessSolve()
+      guess.value =''
+    }
   })
 
-  var solveButton = document.querySelector('#solveButton')
+  var solve = document.querySelector('#solve')
 
-  solveButton.addEventListener('click', function() {
-    isWordCorrect()
-    displaySolveResult()
+  solve.addEventListener('keypress', function(e) {
+    var key = e.which || e.keyCode
+    if (key === 13) {
 
+      isWordCorrect()
+      displaySolveResult()
+
+    }
   })
 
 
@@ -95,9 +110,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       clearInterval(timeoutOneMin)
 
+      var resultBox = document.querySelector('.interaction')
+      var showResult = document.querySelector('.showResult')
+
+      showResult.textContent = 'SORRY, YOU HAVE RUN OUT OF TIME. TRY AGAIN!'
+      resultBox.appendChild(showResult)
+
+
+
       var bottomContainer = document.querySelector('.bottom-container')
       bottomContainer.style.display = 'none'
-      alert('SORRY TIME IS UP!')
 
       scoreCounter = 0
       var scoreboard = document.querySelector('.scoreboard')
@@ -164,15 +186,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       // Display corresponding Category below the boxes
       var categoryIntro = document.createElement('p')
-      categoryIntro.textContent = 'THE CATEGORY OF THIS PUZZLE IS: '
+      categoryIntro.textContent = 'The category of this word: ' + category
       categoryIntro.className = 'category'
       display.appendChild(categoryIntro)
 
-      var showCategory = document.createElement('p')
-      showCategory.className = 'category'
-      showCategory.id = 'puzzleCat'
-      showCategory.textContent = category
-      display.appendChild(showCategory)
+      // var showCategory = document.createElement('p')
+      // showCategory.className = 'category'
+      // showCategory.id = 'puzzleCat'
+      // showCategory.textContent = category
+      // categoryIntro.appendChild(showCategory)
   }
 
 
@@ -215,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     if (pinkArr.length === answer.length) {
 
-      scoreCounter = scoreCounter + 1
+      scoreCounter = scoreCounter + 1000
       var scoreboard = document.querySelector('.scoreboard')
       var score = document.querySelector('#score')
 
@@ -227,6 +249,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       var bottomContainer = document.querySelector('.bottom-container')
       bottomContainer.style.display = 'none'
+
+      guess.value =''
 
       clearInterval(timeoutOneMin)
 
@@ -301,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     if (isWordCorrect() === true) {
 
-      scoreCounter = scoreCounter + 1
+      scoreCounter = scoreCounter + 1000
       var scoreboard = document.querySelector('.scoreboard')
       var score = document.querySelector('#score')
 
