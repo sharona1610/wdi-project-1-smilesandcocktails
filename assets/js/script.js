@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var solvedPuzzles = []
   var alphabets = []
   var timeoutOneMin;
+  var counter = 60
+  var scoreCounter = 0
 
   var bottomContainer = document.querySelector('.bottom-container')
   bottomContainer.style.display = 'none'
@@ -56,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       hideIntroShowButtons()
       oneMinCountDown()
       displayPuzzle()
-      // restart()
+
   })
 
   var guessButton = document.querySelector('#guessButton')
@@ -66,7 +68,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     checkGuess()
     guessResult()
     exposeLetter()
+    didGuessSolve()
     guess.value =''
+
   })
 
   var solveButton = document.querySelector('#solveButton')
@@ -74,9 +78,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   solveButton.addEventListener('click', function() {
     isWordCorrect()
     displaySolveResult()
+
   })
 
-  var counter = 60
+
 
   function oneMinCountDown() {
     timeoutOneMin = setInterval(alertTimesUp, 1000)
@@ -86,18 +91,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var seconds = document.querySelector('.seconds')
     seconds.textContent = 'TIME LEFT: ' + counter + ' SECONDS'
 
-
-
     if(counter < 1) {
-      console.log('isWordCorrect Function: '+isWordCorrect())
-      console.log(counter)
+
       clearInterval(timeoutOneMin)
+
+      var bottomContainer = document.querySelector('.bottom-container')
+      bottomContainer.style.display = 'none'
+      alert('SORRY TIME IS UP!')
+
+      scoreCounter = 0
+      var scoreboard = document.querySelector('.scoreboard')
+      var score = document.querySelector('#score')
+
+      score.textContent = 'BEST SCORE: ' + scoreCounter
+      scoreboard.appendChild(score)
+
       restart()
     }
     else {
       counter --
     }
   }
+
 
   function randomizeIndex() {
 
@@ -147,23 +162,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
       display.appendChild(eachLetterBox)
     }
 
-    // Display corresponding Category below the boxes
-    var categoryIntro = document.createElement('p')
-    categoryIntro.textContent = 'THE CATEGORY OF THIS PUZZLE IS: '
-    categoryIntro.className = 'category'
-    display.appendChild(categoryIntro)
+      // Display corresponding Category below the boxes
+      var categoryIntro = document.createElement('p')
+      categoryIntro.textContent = 'THE CATEGORY OF THIS PUZZLE IS: '
+      categoryIntro.className = 'category'
+      display.appendChild(categoryIntro)
 
-    var showCategory = document.createElement('p')
-    showCategory.className = 'category'
-    showCategory.id = 'puzzleCat'
-    showCategory.textContent = category
-    display.appendChild(showCategory)
+      var showCategory = document.createElement('p')
+      showCategory.className = 'category'
+      showCategory.id = 'puzzleCat'
+      showCategory.textContent = category
+      display.appendChild(showCategory)
   }
 
 
   function checkGuess() {
     var guess = document.querySelector('#guess')
     var answer = puzzle[randomIndex].answer
+    var letters = document.querySelectorAll('.letter')
 
     if (guess.value.length > 1 || guess.value.length < 1) {
       // console.log('Guess entry is not a 1-letter word')
@@ -173,18 +189,48 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // console.log('Letter has already been guessed')
       return 2
     }
-    else if (answer.includes(guess.value.toUpperCase())) {
-      // console.log('Letter is in the word')
-      return 3
-    }
     else if (!answer.includes(guess.value.toUpperCase())) {
       // console.log('Letter is not in the word')
+      return 3
+    }
+    else if (answer.includes(guess.value.toUpperCase())) {
       return 4
     }
-    else if (
-      letters.forEach(function(letter) { letter.style.backgroundColor = 'deeppink' })
-    ) {
-      return 5
+}
+
+  function didGuessSolve() {
+    var letters = document.querySelectorAll('.letter')
+    var answer = puzzle[randomIndex].answer
+    var resultBox = document.querySelector('.interaction')
+    var showResult = document.querySelector('.showResult')
+
+    var pinkArr = []
+
+    letters.forEach(function(letter) {
+      // console.log(letter)
+      if(letter.style.backgroundColor === 'deeppink') {
+        pinkArr.push(1)
+      }
+    })
+
+    if (pinkArr.length === answer.length) {
+
+      scoreCounter = scoreCounter + 1
+      var scoreboard = document.querySelector('.scoreboard')
+      var score = document.querySelector('#score')
+
+      score.textContent = 'BEST SCORE: ' + scoreCounter
+      scoreboard.appendChild(score)
+
+      showResult.textContent = 'HOORAY! YOU HAVE GUESSED CORRECTLY!'
+      resultBox.appendChild(showResult)
+
+      var bottomContainer = document.querySelector('.bottom-container')
+      bottomContainer.style.display = 'none'
+
+      clearInterval(timeoutOneMin)
+
+      removeOldPuzzleAndRestart()
     }
   }
 
@@ -208,20 +254,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
     else if (checkGuess() === 3) {
       alphabets.push(guess.value.toUpperCase())
       console.log(alphabets)
-      showResult.textContent = 'EXCELLENT! \'' + guess.value.toUpperCase() + '\' IS IN THE WORD'
-      resultBox.appendChild(showResult)
-    }
-    else if (checkGuess() === 4) {
-      alphabets.push(guess.value.toUpperCase())
-      console.log(alphabets)
       showResult.textContent = 'SORRY, \'' + guess.value.toUpperCase() + '\' IS NOT IN THE WORD!'
       resultBox.appendChild(showResult)
     }
-    else if (checkGuess() === 5) {
-      showResult.textContent = 'HOORAY! YOU HAVE FIGURED OUT THE PUZZLE!'
+    else if (checkGuess() === 4) {
+
+      alphabets.push(guess.value.toUpperCase())
+      console.log(alphabets)
+      showResult.textContent = 'EXCELLENT! \'' + guess.value.toUpperCase() + '\' IS IN THE WORD'
       resultBox.appendChild(showResult)
     }
-
   }
 
   function exposeLetter() {
@@ -258,6 +300,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var playButton = document.querySelector('#playButton')
 
     if (isWordCorrect() === true) {
+
+      scoreCounter = scoreCounter + 1
+      var scoreboard = document.querySelector('.scoreboard')
+      var score = document.querySelector('#score')
+
+      score.textContent = 'BEST SCORE: ' + scoreCounter
+      scoreboard.appendChild(score)
+
       letters.forEach(function(letter) {
         letter.style.backgroundColor = 'deeppink'
       })
@@ -269,6 +319,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       clearInterval(timeoutOneMin)
 
+      var bottomContainer = document.querySelector('.bottom-container')
+      bottomContainer.style.display = 'none'
       removeOldPuzzleAndRestart()
 
 
@@ -295,6 +347,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       startButton.style.display = 'block'
 
       counter = 60
+      alphabets = []
   }
 
 })
