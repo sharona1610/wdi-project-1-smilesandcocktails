@@ -45,21 +45,28 @@ The game will prompt as **wrong guesses** if:
 
 ## Work Flow
 
-Days 1: Created preliminary flowchart & mind map before writing codes
+##### Day 1:
+* Created preliminary flowchart & mind map before writing codes
 
 ![Preliminary Flowchart](http://i.imgur.com/geHNeto.jpg)
 
-Days 2 - 5: Created mindmap of the game & Wrote codes for game logic
+#### Days 2 - 5:
+* Updated mindmap of the game
+* Wrote codes for game logic
 
-Day 6: Debug codes & Added winning conditions
+![Mindmap](https://media.giphy.com/media/uNKep5WiJi7wA/giphy.gif)
 
-Days 6 - 7: Beautify
+#### Day 6:
+* Debug codes & Added winning conditions
+
+#### Days 6 - 7:
+* Beautify
 
 ![TheStruggleIsReal](https://media.giphy.com/media/ycnOSClUDW1S8/giphy.gif)
 
 ## Built & Access With
 
-Created with Javascript, HTML, CSS
+Created with *Javascript*, *HTML*, *CSS*
 
 This is a web-based game so you will need to have access to the internet to play. Play this game on your desktop or laptop, and Google Chrome is the preferable browser to play this game in as it was styled in Chrome.
 
