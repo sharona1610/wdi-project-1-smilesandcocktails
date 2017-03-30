@@ -8,7 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: lightpink;
-  background: url('https://static.pexels.com/photos/2255/black-and-white-city-houses-skyline.jpg') no-repeat center center fixed;
+  background: url(../images/skyline.jpg) no-repeat center center fixed;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
@@ -42,6 +42,7 @@ h1 {
   font-family: 'Poiret One', cursive;
   font-size: 140%;
 }
+
 #startButton {
   position: absolute;
   top: 440px
@@ -77,6 +78,7 @@ h1 {
   font-size: 100%;
   font-family: 'Poiret One', cursive;
 }
+
 .interaction {
   display: flex;
   flex-direction: column;
@@ -92,6 +94,7 @@ h1 {
   font-size: 145%;
   font-style: italic
 }
+
 .bottom-container {
   display: flex;
   flex-direction: column;
@@ -140,7 +143,6 @@ h1 {
 label {
   font-family: 'Poiret One', cursive;
   font-size:75%;
-
 }
 
 #startButton {
