@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   startButton.addEventListener('click', function() {
 
+
       var intro = document.querySelector('.intro')
       intro.style.display = 'none'
 
@@ -113,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var resultBox = document.querySelector('.interaction')
       var showResult = document.querySelector('.showResult')
 
-      showResult.textContent = 'SORRY, YOU HAVE RUN OUT OF TIME. TRY AGAIN!'
+      showResult.textContent = 'SORRY, YOU RAN OUT OF TIME. TRY AGAIN!'
       resultBox.appendChild(showResult)
 
 
@@ -367,7 +368,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function restart() {
 
       var startButton = document.querySelector('#startButton')
-      startButton.value = 'ANOTHER PUZZLE'
+      startButton.value = 'Another Puzzle'
       startButton.style.display = 'block'
 
       counter = 60
