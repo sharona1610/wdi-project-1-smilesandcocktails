@@ -59,12 +59,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
   // Calls to display the puzzle when click on "Let's Play" button at homepage
   var startButton = document.querySelector('#startButton')
   startButton.addEventListener('click', function () {
+
     var intro = document.querySelector('.intro')
     intro.style.display = 'none'
 
     hideIntroShowButtons()
     oneMinCountDown()
     displayPuzzle()
+  
   })
 
   // Call functions to check on 1-letter-guess validity & win

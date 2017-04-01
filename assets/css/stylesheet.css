@@ -180,31 +180,90 @@ footer {
 @media only screen and (max-width: 800px) {
 
 
-#startButton {
-  top: 650px;
+html{
+  background: url(../images/skyline.jpg)
+    background-repeat: no-repeat;
+    background-position: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+h1 {
   font-size: 200%
 }
 
+#startButton {
+  top: 400px;
+  font-size: 140%
+}
+
 .intro {
-  line-height: 200%;
-  padding-top: 150px
+  line-height: 100%;
 }
 
 .introp {
-  font-size: 200%;
+  font-size: 85%;
 }
 
+.bottom-container {
+  padding-top: 20px
+}
 .guess-letter {
-  display:block
-
+  display:block;
+  position: fixed;
+  padding-top: 0px
 }
 
 .solve-word {
-  display: block
+  display: block;
+  padding-top: 130px
 }
 
 label {
-  font-size: 100%
+  font-size: 80%;
+}
+
+
+.timer {
+  top: 130px;
+  font-size: 110%;
+
+}
+.scoreboard {
+  top: 150px;
+  font-size: 110%
+}
+
+.letter {
+  font-size: 100%;
+  margin: 2px;
+  line-height: 30px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: white;
+  border-radius: 10px 8%;
+  text-align: center
+}
+.category {
+  top: 280px;
+}
+
+.showResult {
+  top: 340px;
+  color: deeppink;
+  font-size: 90%;
+  font-style: italic
+}
+
+#solve, #guess {
+background-color: rgba(250,250,250,.3);
+border-radius: 15px 5%;
+height: 40px
+}
+
+footer {
+  font-size: 50%
 }
 
 }
