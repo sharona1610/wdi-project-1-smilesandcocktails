@@ -1,3 +1,12 @@
+html {
+  background: url(../images/skyline.jpg) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      margin: 0;
+}
+
 * {
   font-family: 'Gochi Hand', cursive;
 }
@@ -7,13 +16,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: lightpink;
-  background: url(../images/skyline.jpg) no-repeat center center fixed;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-      margin: 0;
+
 }
 
 h1 {
@@ -172,4 +175,36 @@ footer {
   font-family: 'Pacifico';
   font-size: 90%;
   background-color: transparent
+}
+
+@media only screen and (max-width: 800px) {
+
+
+#startButton {
+  top: 650px;
+  font-size: 200%
+}
+
+.intro {
+  line-height: 200%;
+  padding-top: 150px
+}
+
+.introp {
+  font-size: 200%;
+}
+
+.guess-letter {
+  display:block
+
+}
+
+.solve-word {
+  display: block
+}
+
+label {
+  font-size: 100%
+}
+
 }
